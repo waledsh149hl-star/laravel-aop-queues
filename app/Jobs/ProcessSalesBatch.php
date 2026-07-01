@@ -31,7 +31,6 @@ class ProcessSalesBatch implements ShouldQueue
         foreach ($this->products as $product) {
             // عمليات حسابية نثلا 
         }
-
         Log::info("Batch Worker: تمت معالجة دفعة تضم " . count($this->products) . " منتج بنجاح.");
     }
 }

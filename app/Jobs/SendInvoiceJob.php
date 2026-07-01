@@ -17,6 +17,6 @@ class SendInvoiceJob implements ShouldQueue
     {
         //انشاء الفاتورة 
         sleep(5);
-        Log::info("Async Consumer: Invoice processed successfully in background.");
+        Log::info("تم انشاء الفاتورة ");
     }
 }

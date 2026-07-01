@@ -25,7 +25,7 @@ class RequestLoggerAspect
             //     Log::info("Aspect: تم إرسال فاتورة فردية للخلفية.");
             // }
 
-            
+//      الطلب الثالث المعالجة غير المتزامنة 
 if ($request->is('api/buy*')) {
     if ($request->query('mode') == 'sync') {
         
@@ -37,6 +37,7 @@ if ($request->is('api/buy*')) {
         Log::info("Aspect: تم إرسال فاتورة فردية للخلفية (Async).");
     }
 }
+//   انتهى الطلب الرابع 
 
 
 
@@ -52,17 +53,15 @@ if ($request->is('api/buy*')) {
     }
 }
 
-
+//           الطلب الرابع 
 protected function handleBatchProcessing()
 {
     $products = \App\Models\Product::all();
     $jobs = [];
-
     // تقسيم البيانات إلى  (Chunks) 
     foreach ($products->chunk(5) as $chunk) {
         $jobs[] = new \App\Jobs\ProcessSalesBatch($chunk);
     }
-
     // (Callbacks)
     \Illuminate\Support\Facades\Bus::batch($jobs)
         ->then(function ($batch) { // Job Chaining
@@ -72,7 +71,6 @@ protected function handleBatchProcessing()
             Log::error("Error: فشلت إحدى الدفعات في المعالجة المتوازية.");
         })
         ->dispatch();
-
     Log::info("Aspect: تم تقسيم العمل وتوزيعه كـ Parallel Batch.");
 }
 }

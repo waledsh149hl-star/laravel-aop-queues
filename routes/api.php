@@ -16,7 +16,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware([RequestLoggerAspect::class])->group(function () {
     Route::post('/buy/{id}', [OrderController::class, 'buy']);
     Route::post('/buy1/{id}', [OrderController::class, 'buy1']);
-
+    
     
 Route::post('/generate-report', function () {
     return response()->json([
@@ -24,3 +24,23 @@ Route::post('/generate-report', function () {
     ]);
 });
 });
+
+
+
+
+Route::post('/buyWithoutTransaction/{id}', [OrderController::class, 'buyWithoutTransaction']);
+Route::post('/buyWithTransaction/{id}', [OrderController::class, 'buyWithTransaction']);
+
+
+
+//---------------------------------------------------------------------
+// الطلب 6 
+Route::get('/getProductWithoutCache/{id}', [OrderController::class, 'getProductWithoutCache']);
+Route::get('/getProductWithCache/{id}', [OrderController::class, 'getProductWithCache']);
+Route::put('/products/{id}/stock', [OrderController::class, 'updateStock']);
+
+
+
+Route::get('/getProductWithout/{id}', [OrderController::class, 'getProductWithout']);
+
+Route::get('/getProductWith/{id}', [OrderController::class, 'getProductWith']);
