@@ -1,52 +1,25 @@
 <?php
-// كود محاكاة توزيع الأحمال (Load Balancing - Round Robin) للطلب الخامس
+
 $pointerFile = __DIR__ . '/../balancer_pointer.txt';
 if (!file_exists($pointerFile)) {
     file_put_contents($pointerFile, '0');
 }
 $currentIndex = (int)file_get_contents($pointerFile);
 
-// تحديد البورت الحالي بناءً على السيرفر الذي استقبل الطلب
+
 $currentPort = $_SERVER['SERVER_PORT'];
 
-// طباعة التناوب في الـ Terminal الخاص بالسيرفر الحالي لتبهر الدكتورة
+
 error_log("--- Load Balancer Traffic --- Request received on Port: " . $currentPort . " | Target Instance Index: " . $currentIndex);
 
-// تحديث المؤشر للطلب القادم بالتناوب الدائري
-$nextIndex = ($currentIndex + 1) % 2; // لدينا خادمان (0 و 1)
+
+$nextIndex = ($currentIndex + 1) % 2; 
 file_put_contents($pointerFile, (string)$nextIndex);
 
 header("X-Balancer-Port: " . $currentPort);
 header("X-Balancer-Target-Index: " . $currentIndex);
 
 
-
-
-
-
-// // كود موازن الأحمال المطور لإغلاق الاتصالات المتتالية وإجبار الملف على التغير
-// $pointerFile = __DIR__ . '/balancer_pointer.txt';
-// if (!file_exists($pointerFile)) {
-//     file_put_contents($pointerFile, '0');
-// }
-
-// // قراءة القيمة الحالية بدقة
-// $currentIndex = (int)trim(file_get_contents($pointerFile));
-// $currentPort = $_SERVER['SERVER_PORT'];
-
-// // حساب المؤشر القادم
-// $nextIndex = ($currentIndex === 0) ? 1 : 0;
-
-// // كتابة القيمة فوراً مع قفل حصري وإجبار النظام على الحفظ على القرص الحقيقي
-// file_put_contents($pointerFile, (string)$nextIndex, LOCK_EX);
-
-// // الرؤوس البرمجية لمنع الكاش وإغلاق الاتصال فوراً لإثبات التناوب
-// header("Cache-Control: no-cache, no-store, must-revalidate");
-// header("Pragma: no-cache");
-// header("Expires: 0");
-// header("Connection: close"); // 🔥 إجبار المتصفح على فتح اتصال جديد بالكامل في كل نقرة
-// header("X-Balancer-Port: " . $currentPort);
-// header("X-Balancer-Target-Index: " . $currentIndex);
 
 
 
